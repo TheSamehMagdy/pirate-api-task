@@ -1,0 +1,21 @@
+{
+  "name": "pirate-api",
+  "version": "0.0.0",
+  "description": ".",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "pirate-api-task"
+  },
+  "author": "Sameh Magdy <thesamehmagdy@gmail.com>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "express": "~3.2.4",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "license": "ISC"
+}
