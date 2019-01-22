@@ -70,6 +70,30 @@ app.get("/pirates", function(req, res, next) {
     });    
 });
 
+// User Signup
+app.post("/signup", function(req, res, next) {
+    var username = req.body.username;
+    var newUser = {
+        username: username
+    };
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            return res.status(400).json({
+                success: false,
+                message: 'An error occurred: ' + err
+            });
+        }
+        passport.authenticate("local", {session: false})(req, res, function(){
+            return res.status(200).json({
+                success: true,
+                message:'Signed up successfully',
+                user: user
+            });
+        });
+    });
+});
+
+
 // Start server
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Server has started");
