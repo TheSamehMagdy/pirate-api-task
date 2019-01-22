@@ -122,11 +122,24 @@ app.post("/login", function(req, res, next) {
 // Count Pirates
 app.get("/pirates/countPirates", passport.authenticate("local"), function(req, res, next) {
     request.get("https://eila-pirate-api.herokuapp.com/pirates/prison", (error, response, body) => {
-    if(error) {
-        return res.status(400).json(error);
-    }
-    var parsedBody = JSON.parse(body);
-    res.status(200).json(parsedBody);
+        if(error) {
+            return res.status(400).json(error);
+        }
+        var parsedBody = JSON.parse(body);
+        var pirateFaces = parsedBody.faces;
+        function catchThePirates(pirateFaces) {
+        	var valid = [];
+        	pirateFaces.forEach(function(face) {
+        		if (face.includes(";") || face.includes("8")) {
+        			if(face.includes(")") || face.includes("|")) {
+        				valid.push(face);
+        			}
+        		}
+        	});
+        	var pirateCount = valid.legnth;
+        	res.status(200).json("piratesFound: " + pirateCount);
+        }
+        catchThePirates(pirateFaces);
 });
 
 });
