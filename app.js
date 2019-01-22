@@ -1,7 +1,8 @@
 var express          = require("express"),
     app              = express(),
     mongoose         = require("mongoose"),
-    bodyParser       = require("body-parser");
+    bodyParser       = require("body-parser"),
+    Pirate           = require("./models/pirate");
 
 require('dotenv').config();
 
