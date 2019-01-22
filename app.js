@@ -8,6 +8,7 @@ var express          = require("express"),
     passportJWT      = require("passport-jwt"),
     JWTStrategy      = passportJWT.Strategy,
     ExtractJWT       = passportJWT.ExtractJwt,
+    User             = require("./models/user.js"),
     Pirate           = require("./models/pirate");
 
 require('dotenv').config();
