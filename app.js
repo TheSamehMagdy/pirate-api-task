@@ -136,8 +136,10 @@ app.get("/pirates/countPirates", passport.authenticate("local"), function(req, r
         			}
         		}
         	});
-        	var pirateCount = valid.length;
-        	res.status(200).json("piratesFound:" + pirateCount);
+        	var pirateCount = {
+        	    "piratesFound": valid.length  
+        	};
+        	res.status(200).json(pirateCount);
         }
         catchThePirates(pirateFaces);
 });
