@@ -93,6 +93,30 @@ app.post("/signup", function(req, res, next) {
     });
 });
 
+// User Login
+app.post("/login", function(req, res, next) {
+    if (!req.body.username || !req.body.password) {
+        return res.status(400).json({
+            message: "Something is not right with your input."
+        });
+    }
+    passport.authenticate("local", {session: false}, (err, user, info) => {
+        if (err || !user) {
+            return res.status(400).json({
+                message: "Something went wrong. " + err.message,
+                user   : user
+            });
+        }
+        req.login(user, {session: false}, (err) => {
+            if (err) {
+                res.json(err);
+            }
+            // generate a signed json web token with the contents of user object and return it in the response
+            var token = jwt.sign({ id: user.id, email: user.username}, process.env.JWT_SECRET);
+            return res.json({user: user, token});
+        });
+    })(req, res);
+});
 
 // Start server
 app.listen(process.env.PORT, process.env.IP, function() {
