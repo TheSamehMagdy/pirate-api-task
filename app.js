@@ -8,6 +8,7 @@ var express          = require("express"),
     passportJWT      = require("passport-jwt"),
     JWTStrategy      = passportJWT.Strategy,
     ExtractJWT       = passportJWT.ExtractJwt,
+    request          = require("request"),
     User             = require("./models/user.js"),
     Pirate           = require("./models/pirate");
 
@@ -120,13 +121,14 @@ app.post("/login", function(req, res, next) {
 
 // Count Pirates
 app.get("/pirates/countPirates", passport.authenticate("local"), function(req, res, next) {
-    Pirate.find({}, {"_id": 0, "__v": 0}, function(err, pirates){
-        if(err){
-            res.status(400).json(err);
-        } else {
-            res.status(200).json(pirates);
-        }
-    });
+    request.get("https://eila-pirate-api.herokuapp.com/pirates/prison", (error, response, body) => {
+    if(error) {
+        return res.status(400).json(error);
+    }
+    var parsedBody = JSON.parse(body);
+    res.status(200).json(parsedBody);
+});
+
 });
 // Start server
 app.listen(process.env.PORT, process.env.IP, function() {
